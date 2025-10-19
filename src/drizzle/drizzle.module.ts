@@ -13,9 +13,10 @@ export const DRIZZLE = Symbol("drizzle-connection");
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
         const DATABASE_URL = configService.getOrThrow<string>("DATABASE_URL");
+        const NODE_ENV = configService.get<string>("NODE_ENV", "development");
         const pool = new Pool({
           connectionString: DATABASE_URL,
-          ssl: true,
+          ssl: NODE_ENV === "production" ? true : false,
         });
         return drizzle(pool, { schema }) as NodePgDatabase<typeof schema>;
       },

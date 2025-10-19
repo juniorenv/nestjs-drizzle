@@ -9,7 +9,7 @@ import { users } from "./users.schema";
 
 export const groups = pgTable("groups", {
   id: serial("id").primaryKey(),
-  name: text("name").notNull(),
+  name: text("name").unique().notNull(),
 });
 
 // The joint table
