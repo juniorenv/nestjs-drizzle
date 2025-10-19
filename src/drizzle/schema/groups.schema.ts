@@ -1,27 +1,29 @@
 import {
   primaryKey,
-  integer,
   text,
-  serial,
   pgTable,
+  timestamp,
+  uuid,
 } from "drizzle-orm/pg-core";
 import { users } from "./users.schema";
 
 export const groups = pgTable("groups", {
-  id: serial("id").primaryKey(),
+  id: uuid("id").defaultRandom().primaryKey(),
   name: text("name").unique().notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
 // The joint table
 export const usersToGroups = pgTable(
   "users_to_groups",
   {
-    userId: integer("user_id")
+    userId: uuid("user_id")
       .notNull()
       .references(() => users.id, {
         onDelete: "cascade",
       }),
-    groupId: integer("group_id")
+    groupId: uuid("group_id")
       .notNull()
       .references(() => groups.id, {
         onDelete: "cascade",
