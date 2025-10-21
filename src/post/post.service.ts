@@ -1,4 +1,8 @@
-import { Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
+import type { DrizzleDB } from "../drizzle/types/drizzle";
+import { DRIZZLE } from "src/drizzle/drizzle.module";
 
 @Injectable()
-export class PostService {}
+export class PostService {
+  constructor(@Inject(DRIZZLE) private db: DrizzleDB) {}
+}
