@@ -6,6 +6,7 @@ import {
   uuid,
 } from "drizzle-orm/pg-core";
 import { users } from "./users.schema";
+import { relations } from "drizzle-orm";
 
 export const groups = pgTable("groups", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -31,3 +32,18 @@ export const usersToGroups = pgTable(
   },
   (table) => [primaryKey({ columns: [table.userId, table.groupId] })],
 );
+
+export const groupsRelations = relations(groups, ({ many }) => ({
+  usersToGroups: many(usersToGroups),
+}));
+
+export const usersToGroupsRelations = relations(usersToGroups, ({ one }) => ({
+  user: one(users, {
+    fields: [usersToGroups.userId],
+    references: [users.id],
+  }),
+  group: one(groups, {
+    fields: [usersToGroups.groupId],
+    references: [groups.id],
+  }),
+}));

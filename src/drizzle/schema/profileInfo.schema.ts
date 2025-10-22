@@ -1,5 +1,6 @@
 import { jsonb, pgTable, timestamp, uuid } from "drizzle-orm/pg-core";
 import { users } from "./users.schema";
+import { relations } from "drizzle-orm";
 
 export const profileInfo = pgTable("profile_info", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -11,3 +12,10 @@ export const profileInfo = pgTable("profile_info", {
     .unique()
     .references(() => users.id, { onDelete: "cascade" }),
 });
+
+export const profileInfoRelations = relations(profileInfo, ({ one }) => ({
+  user: one(users, {
+    fields: [profileInfo.userId],
+    references: [users.id],
+  }),
+}));
