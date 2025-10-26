@@ -4,6 +4,7 @@ import { Pool } from "pg";
 import * as schema from "./schema/schema";
 import { faker } from "@faker-js/faker";
 import { hashSync } from "bcrypt";
+import { Language, Theme } from "../user/dto/profile-metadata.types";
 
 export const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -66,12 +67,24 @@ async function main() {
         phone: faker.phone.number(),
         location: faker.location.country(),
         website: faker.internet.url(),
-        joinedDate: faker.date.past().toISOString(),
-        preferences: {
-          theme: faker.helpers.arrayElement(["light", "dark"]),
-          notifications: faker.datatype.boolean(),
-          language: faker.helpers.arrayElement(["en", "es", "fr", "pt"]),
+        socialLinks: {
+          twitter: faker.internet.url(),
+          linkedin: faker.internet.url(),
+          github: faker.internet.url(),
         },
+        preferences: {
+          theme: faker.helpers.arrayElement(Object.values(Theme)),
+          notifications: faker.datatype.boolean(),
+          language: faker.helpers.arrayElement(Object.values(Language)),
+          emailNotifications: faker.datatype.boolean(),
+          timezone: faker.location.timeZone(),
+        },
+        occupation: faker.person.jobTitle(),
+        company: faker.company.name(),
+        skills: faker.helpers.arrayElements(
+          ["TypeScript", "React", "Node.js", "Python", "Go", "Rust"],
+          { min: 2, max: 4 },
+        ),
       },
     }));
 
