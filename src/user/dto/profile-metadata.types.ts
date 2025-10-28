@@ -17,7 +17,7 @@ export interface ProfileMetadata {
   phone: string;
   location: string;
   website: string;
-  sociallinks?: {
+  socialLinks?: {
     twitter?: string;
     linkedin?: string;
     github?: string;
