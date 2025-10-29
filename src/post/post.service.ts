@@ -4,5 +4,5 @@ import { DRIZZLE } from "src/drizzle/drizzle.module";
 
 @Injectable()
 export class PostService {
-  constructor(@Inject(DRIZZLE) private db: DrizzleDB) {}
+  constructor(@Inject(DRIZZLE) private readonly db: DrizzleDB) {}
 }
