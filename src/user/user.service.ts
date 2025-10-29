@@ -108,8 +108,15 @@ export class UserService {
   ): Promise<UserResponseDto> {
     await this.checkUserExists(userId);
 
-    if (updateUserDto.email) {
-      const existingEmail = await this.findByEmail(updateUserDto.email);
+    const allowedUpdates: UpdateUserDto = {};
+
+    if (updateUserDto.name !== undefined)
+      allowedUpdates.name = updateUserDto.name;
+    if (updateUserDto.email !== undefined)
+      allowedUpdates.email = updateUserDto.email;
+
+    if (allowedUpdates.email) {
+      const existingEmail = await this.findByEmail(allowedUpdates.email);
 
       if (existingEmail && existingEmail.id !== userId)
         throw new ConflictException("Email already in use");
@@ -117,7 +124,7 @@ export class UserService {
 
     const [updatedUser] = await this.db
       .update(users)
-      .set({ ...updateUserDto, updatedAt: new Date() })
+      .set({ ...allowedUpdates, updatedAt: new Date() })
       .where(eq(users.id, userId))
       .returning();
 
