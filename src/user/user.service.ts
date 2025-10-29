@@ -14,7 +14,7 @@ import { profileInfo } from "src/drizzle/schema/profileInfo.schema";
 import { eq } from "drizzle-orm";
 import { plainToInstance } from "class-transformer";
 import { UserResponseDto } from "./dto/user-response.dto";
-import { ProfileInfo, User } from "./dto/user.types";
+import { ProfileEntity, UserEntity } from "./dto/user.types";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { UpdateProfileDto } from "./dto/update-profile.dto";
 
@@ -24,7 +24,7 @@ export class UserService {
 
   private readonly SALT_ROUNDS = 10;
 
-  private async findByEmail(userEmail: string): Promise<User | null> {
+  private async findByEmail(userEmail: string): Promise<UserEntity | null> {
     const foundUser = await this.db.query.users.findFirst({
       where: eq(users.email, userEmail),
     });
@@ -32,7 +32,7 @@ export class UserService {
     return foundUser || null;
   }
 
-  private async findProfileInfo(userId: string): Promise<ProfileInfo | null> {
+  private async findProfileInfo(userId: string): Promise<ProfileEntity | null> {
     const foundProfileInfo = await this.db.query.profileInfo.findFirst({
       where: eq(profileInfo.userId, userId),
     });
@@ -135,7 +135,7 @@ export class UserService {
   public async createProfileInfo(
     userId: string,
     profile: CreateProfileDto,
-  ): Promise<ProfileInfo> {
+  ): Promise<ProfileEntity> {
     await this.checkUserExists(userId);
 
     const existingProfile = await this.findProfileInfo(userId);
@@ -155,7 +155,7 @@ export class UserService {
   public async updateProfileInfo(
     userId: string,
     updateProfileDto: UpdateProfileDto,
-  ): Promise<ProfileInfo> {
+  ): Promise<ProfileEntity> {
     await this.checkUserExists(userId);
 
     const existingProfile = await this.findProfileInfo(userId);

@@ -12,7 +12,7 @@ import { UserService } from "./user.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { CreateProfileDto } from "./dto/create-profile.dto";
 import { UserResponseDto } from "./dto/user-response.dto";
-import { ProfileInfo } from "./dto/user.types";
+import { ProfileEntity } from "./dto/user.types";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { UpdateProfileDto } from "./dto/update-profile.dto";
 
@@ -51,7 +51,7 @@ export class UserController {
   public async createProfileInfo(
     @Param("userId", ParseUUIDPipe) userId: string,
     @Body() profileInfo: CreateProfileDto,
-  ): Promise<ProfileInfo> {
+  ): Promise<ProfileEntity> {
     return this.userService.createProfileInfo(userId, profileInfo);
   }
 
@@ -59,7 +59,7 @@ export class UserController {
   public async updateProfileInfo(
     @Param("userId", ParseUUIDPipe) userId: string,
     @Body() updateProfileDto: UpdateProfileDto,
-  ): Promise<ProfileInfo> {
+  ): Promise<ProfileEntity> {
     return this.userService.updateProfileInfo(userId, updateProfileDto);
   }
 }
