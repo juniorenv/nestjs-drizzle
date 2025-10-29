@@ -104,12 +104,12 @@ export class UserService {
 
   public async update(
     userId: string,
-    updateData: UpdateUserDto,
+    updateUserDto: UpdateUserDto,
   ): Promise<UserResponseDto> {
     await this.checkUserExists(userId);
 
-    if (updateData.email) {
-      const existingEmail = await this.findByEmail(updateData.email);
+    if (updateUserDto.email) {
+      const existingEmail = await this.findByEmail(updateUserDto.email);
 
       if (existingEmail && existingEmail.id !== userId)
         throw new ConflictException("Email already in use");
@@ -117,7 +117,7 @@ export class UserService {
 
     const [updatedUser] = await this.db
       .update(users)
-      .set({ ...updateData, updatedAt: new Date() })
+      .set({ ...updateUserDto, updatedAt: new Date() })
       .where(eq(users.id, userId))
       .returning();
 
@@ -133,7 +133,7 @@ export class UserService {
     const existingProfile = await this.findProfileInfo(userId);
 
     if (existingProfile) {
-      throw new ConflictException("Profile already exists for this user");
+      throw new ConflictException("This user already has a profile");
     }
 
     const [createdProfileInfo] = await this.db

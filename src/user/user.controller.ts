@@ -41,9 +41,9 @@ export class UserController {
   @Patch(":userId")
   public async update(
     @Param("userId", ParseUUIDPipe) userId: string,
-    @Body() updateData: UpdateUserDto,
+    @Body() updateUserDto: UpdateUserDto,
   ): Promise<UserResponseDto> {
-    return this.userService.update(userId, updateData);
+    return this.userService.update(userId, updateUserDto);
   }
 
   @Post(":userId/profile")
