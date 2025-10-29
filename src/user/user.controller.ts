@@ -14,6 +14,7 @@ import { CreateProfileDto } from "./dto/create-profile.dto";
 import { UserResponseDto } from "./dto/user-response.dto";
 import { ProfileInfo } from "./dto/user.types";
 import { UpdateUserDto } from "./dto/update-user.dto";
+import { UpdateProfileDto } from "./dto/update-profile.dto";
 
 @Controller("users")
 export class UserController {
@@ -52,5 +53,13 @@ export class UserController {
     @Body() profileInfo: CreateProfileDto,
   ): Promise<ProfileInfo> {
     return this.userService.createProfileInfo(userId, profileInfo);
+  }
+
+  @Patch(":userId/profile")
+  public async updateProfileInfo(
+    @Param("userId", ParseUUIDPipe) userId: string,
+    @Body() updateProfileDto: UpdateProfileDto,
+  ): Promise<ProfileInfo> {
+    return this.userService.updateProfileInfo(userId, updateProfileDto);
   }
 }

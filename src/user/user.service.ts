@@ -16,6 +16,7 @@ import { plainToInstance } from "class-transformer";
 import { UserResponseDto } from "./dto/user-response.dto";
 import { ProfileInfo, User } from "./dto/user.types";
 import { UpdateUserDto } from "./dto/update-user.dto";
+import { UpdateProfileDto } from "./dto/update-profile.dto";
 
 @Injectable()
 export class UserService {
@@ -149,5 +150,30 @@ export class UserService {
       .returning();
 
     return createdProfileInfo;
+  }
+
+  public async updateProfileInfo(
+    userId: string,
+    updateProfileDto: UpdateProfileDto,
+  ): Promise<ProfileInfo> {
+    await this.checkUserExists(userId);
+
+    const existingProfile = await this.findProfileInfo(userId);
+
+    if (!existingProfile) {
+      throw new NotFoundException("This user does not have a profile yet");
+    }
+
+    const updatedMetadata = updateProfileDto.metadata
+      ? { ...existingProfile.metadata, ...updateProfileDto.metadata }
+      : existingProfile.metadata;
+
+    const [updatedProfileInfo] = await this.db
+      .update(profileInfo)
+      .set({ metadata: updatedMetadata, updatedAt: new Date() })
+      .where(eq(profileInfo.userId, userId))
+      .returning();
+
+    return updatedProfileInfo;
   }
 }
