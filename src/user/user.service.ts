@@ -40,7 +40,7 @@ export class UserService {
     return foundProfileInfo || null;
   }
 
-  private async checkUserExists(userId: string): Promise<void> {
+  public async checkUserExists(userId: string): Promise<void> {
     const foundUser = await this.db.query.users.findFirst({
       where: eq(users.id, userId),
       columns: { id: true },

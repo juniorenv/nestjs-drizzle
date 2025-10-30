@@ -7,5 +7,6 @@ import { DrizzleModule } from "src/drizzle/drizzle.module";
   providers: [UserService],
   controllers: [UserController],
   imports: [DrizzleModule],
+  exports: [UserService],
 })
 export class UserModule {}
