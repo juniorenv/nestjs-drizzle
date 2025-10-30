@@ -20,9 +20,25 @@ export class PostService {
       where: eq(posts.id, postId),
       with: {
         author: {
-          columns: { password: false },
+          columns: {
+            id: true,
+            name: true,
+            email: true,
+            password: false,
+          },
         },
-        comments: true,
+        comments: {
+          with: {
+            author: {
+              columns: {
+                id: true,
+                name: true,
+                email: true,
+                password: false,
+              },
+            },
+          },
+        },
       },
     });
 
