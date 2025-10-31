@@ -21,9 +21,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get(":userId")
-  public async findOne(
-    @Param("userId", ParseUUIDPipe) userId: string,
-  ): Promise<UserResponseDto> {
+  public async findOne(@Param("userId", ParseUUIDPipe) userId: string) {
     return this.userService.findOne(userId);
   }
 

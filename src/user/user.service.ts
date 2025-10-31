@@ -51,16 +51,27 @@ export class UserService {
     }
   }
 
-  public async findOne(userId: string): Promise<UserResponseDto> {
+  public async findOne(userId: string) {
     const foundUser = await this.db.query.users.findFirst({
       where: eq(users.id, userId),
       columns: {
         password: false,
       },
       with: {
-        profileInfo: true,
+        profileInfo: {
+          columns: { userId: false },
+        },
         posts: {
-          with: { comments: true },
+          columns: { authorId: false },
+        },
+        usersToGroups: {
+          columns: {
+            groupId: false,
+            userId: false,
+          },
+          with: {
+            group: true,
+          },
         },
       },
     });
@@ -69,7 +80,7 @@ export class UserService {
       throw new NotFoundException(`User with ID ${userId} not found`);
     }
 
-    return plainToInstance(UserResponseDto, foundUser);
+    return foundUser;
   }
 
   public async create(user: CreateUserDto): Promise<UserResponseDto> {
