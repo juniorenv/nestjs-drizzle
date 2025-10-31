@@ -18,9 +18,7 @@ export class PostController {
   constructor(private readonly postService: PostService) {}
 
   @Get(":postId")
-  public async findOne(
-    @Param("postId", ParseUUIDPipe) postId: string,
-  ): Promise<PostEntity> {
+  public async findOne(@Param("postId", ParseUUIDPipe) postId: string) {
     return this.postService.findOne(postId);
   }
 

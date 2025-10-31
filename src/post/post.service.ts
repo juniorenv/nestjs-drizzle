@@ -15,9 +15,12 @@ export class PostService {
     private readonly userService: UserService,
   ) {}
 
-  public async findOne(postId: string): Promise<PostEntity> {
+  public async findOne(postId: string) {
     const foundPost = await this.db.query.posts.findFirst({
       where: eq(posts.id, postId),
+      columns: {
+        authorId: false,
+      },
       with: {
         author: {
           columns: {
@@ -28,12 +31,15 @@ export class PostService {
           },
         },
         comments: {
+          columns: {
+            authorId: false,
+            postId: false,
+          },
           with: {
             author: {
               columns: {
                 id: true,
                 name: true,
-                email: true,
                 password: false,
               },
             },
