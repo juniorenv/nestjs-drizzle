@@ -3,6 +3,8 @@ import { DrizzleModule } from "./drizzle/drizzle.module";
 import { PostModule } from "./post/post.module";
 import { ConfigModule } from "@nestjs/config";
 import { UserModule } from "./user/user.module";
+import { CommentModule } from "./comment/comment.module";
+import { GroupModule } from "./group/group.module";
 
 @Module({
   imports: [
@@ -10,6 +12,8 @@ import { UserModule } from "./user/user.module";
     DrizzleModule,
     PostModule,
     UserModule,
+    CommentModule,
+    GroupModule,
   ],
   controllers: [],
   providers: [],
