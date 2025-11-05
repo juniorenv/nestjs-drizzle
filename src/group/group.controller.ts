@@ -12,6 +12,7 @@ import { GroupService } from "./group.service";
 import { CreateGroupDto } from "./dto/create-group.dto";
 import { UpdateGroupDto } from "./dto/update-group.dto";
 import { GroupEntity } from "./dto/group.types";
+import { AddMemberDto } from "./dto/add-member.dto";
 
 @Controller("groups")
 export class GroupController {
@@ -41,4 +42,16 @@ export class GroupController {
   ): Promise<GroupEntity> {
     return this.groupService.update(groupId, updateGroupDto);
   }
+
+  @Post(":groupId/members")
+  public async addMember(
+    @Param("groupId", ParseUUIDPipe) groupId: string,
+    @Body() addMemberDto: AddMemberDto,
+  ) {}
+
+  @Delete(":groupId/members/:userId")
+  async removeMember(
+    @Param("groupId", ParseUUIDPipe) groupId: string,
+    @Param("groupId", ParseUUIDPipe) userId: string,
+  ) {}
 }
