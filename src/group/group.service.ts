@@ -109,4 +109,8 @@ export class GroupService {
 
     return updatedGroup;
   }
+
+  public async addMember(groupId: string, userId: string) {}
+
+  public async removeMember(groupId: string, userId: string) {}
 }
