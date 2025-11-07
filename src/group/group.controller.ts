@@ -47,11 +47,15 @@ export class GroupController {
   public async addMember(
     @Param("groupId", ParseUUIDPipe) groupId: string,
     @Body() addMemberDto: AddMemberDto,
-  ) {}
+  ): Promise<{ message: string }> {
+    return this.groupService.addMember(groupId, addMemberDto.userId);
+  }
 
   @Delete(":groupId/members/:userId")
   async removeMember(
     @Param("groupId", ParseUUIDPipe) groupId: string,
-    @Param("groupId", ParseUUIDPipe) userId: string,
-  ) {}
+    @Param("userId", ParseUUIDPipe) userId: string,
+  ): Promise<{ message: string }> {
+    return this.groupService.removeMember(groupId, userId);
+  }
 }

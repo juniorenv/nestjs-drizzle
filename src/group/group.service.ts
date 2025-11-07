@@ -4,17 +4,21 @@ import {
   Injectable,
   NotFoundException,
 } from "@nestjs/common";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { DRIZZLE } from "src/drizzle/drizzle.module";
-import { groups } from "src/drizzle/schema/groups.schema";
+import { groups, usersToGroups } from "src/drizzle/schema/groups.schema";
 import type { DrizzleDB } from "src/drizzle/types/drizzle";
 import { CreateGroupDto } from "./dto/create-group.dto";
 import { UpdateGroupDto } from "./dto/update-group.dto";
 import { GroupEntity } from "./dto/group.types";
+import { UserService } from "src/user/user.service";
 
 @Injectable()
 export class GroupService {
-  constructor(@Inject(DRIZZLE) private readonly db: DrizzleDB) {}
+  constructor(
+    @Inject(DRIZZLE) private readonly db: DrizzleDB,
+    private readonly userService: UserService,
+  ) {}
 
   private async checkGroupNameTaken(name: string): Promise<void> {
     const foundGroup = await this.db.query.groups.findFirst({
@@ -110,7 +114,61 @@ export class GroupService {
     return updatedGroup;
   }
 
-  public async addMember(groupId: string, userId: string) {}
+  public async addMember(
+    groupId: string,
+    userId: string,
+  ): Promise<{ message: string }> {
+    await this.userService.checkUserExists(userId);
 
-  public async removeMember(groupId: string, userId: string) {}
+    const foundGroup = await this.db.query.groups.findFirst({
+      where: eq(groups.id, groupId),
+      columns: { id: true },
+    });
+
+    if (!foundGroup) {
+      throw new NotFoundException(`Group with ID ${groupId} not found`);
+    }
+
+    const existingMembership = await this.db.query.usersToGroups.findFirst({
+      where: and(
+        eq(usersToGroups.groupId, groupId),
+        eq(usersToGroups.userId, userId),
+      ),
+    });
+
+    if (existingMembership) {
+      throw new ConflictException(
+        `User ${userId} is already a member of this group`,
+      );
+    }
+
+    await this.db.insert(usersToGroups).values({ groupId, userId }).returning();
+
+    return { message: `Member ${userId} has been successfully added ` };
+  }
+
+  public async removeMember(
+    groupId: string,
+    userId: string,
+  ): Promise<{ message: string }> {
+    await this.userService.checkUserExists(userId);
+
+    const [removedMember] = await this.db
+      .delete(usersToGroups)
+      .where(
+        and(
+          eq(usersToGroups.groupId, groupId),
+          eq(usersToGroups.userId, userId),
+        ),
+      )
+      .returning();
+
+    if (!removedMember) {
+      throw new NotFoundException(
+        `User ${userId} is not a member from this group`,
+      );
+    }
+
+    return { message: `Member ${userId} has been successfully removed` };
+  }
 }
