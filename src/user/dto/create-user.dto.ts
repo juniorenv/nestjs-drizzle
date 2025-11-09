@@ -5,7 +5,7 @@ export class CreateUserDto {
   @Length(2, 32, { message: "Name must be between 2 and 32 characters" })
   name: string;
 
-  @IsEmail()
+  @IsEmail({}, { message: "Invalid email format" })
   email: string;
 
   @IsString()
