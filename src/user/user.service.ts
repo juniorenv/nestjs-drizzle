@@ -17,6 +17,7 @@ import { UserResponseDto } from "./dto/user-response.dto";
 import { ProfileEntity, UserEntity } from "./dto/user.types";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { UpdateProfileDto } from "./dto/update-profile.dto";
+import { isObject, mergeWith } from "lodash";
 
 @Injectable()
 export class UserService {
@@ -175,8 +176,20 @@ export class UserService {
       throw new NotFoundException("This user does not have a profile yet");
     }
 
+    const customMerger = (objValue: unknown, srcValue: unknown): unknown => {
+      if (isObject(objValue) && isObject(srcValue)) {
+        return mergeWith({}, objValue, srcValue, customMerger);
+      }
+      return srcValue;
+    };
+
     const updatedMetadata = updateProfileDto.metadata
-      ? { ...existingProfile.metadata, ...updateProfileDto.metadata }
+      ? mergeWith(
+          {},
+          existingProfile.metadata,
+          updateProfileDto.metadata,
+          customMerger,
+        )
       : existingProfile.metadata;
 
     const [updatedProfileInfo] = await this.db

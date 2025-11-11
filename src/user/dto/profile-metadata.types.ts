@@ -26,7 +26,7 @@ export enum Language {
   PT = "pt",
 }
 
-class SocialLinksDto {
+export class SocialLinksDto {
   @IsOptional()
   @IsUrl({}, { message: "Twitter must be a valid URL" })
   twitter?: string;
@@ -40,7 +40,7 @@ class SocialLinksDto {
   github?: string;
 }
 
-class PreferencesDto {
+export class PreferencesDto {
   @IsEnum(Theme, { message: "Theme must be light, dark or system" })
   theme: Theme;
 
