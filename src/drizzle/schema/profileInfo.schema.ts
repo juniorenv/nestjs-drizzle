@@ -1,7 +1,7 @@
 import { jsonb, pgTable, timestamp, uuid } from "drizzle-orm/pg-core";
 import { users } from "./users.schema";
 import { relations } from "drizzle-orm";
-import { ProfileMetadata } from "src/user/dto/profile-metadata.types";
+import { ProfileMetadata } from "src/user/dto/profile-metadata.dto";
 
 export const profileInfo = pgTable("profile_info", {
   id: uuid("id").defaultRandom().primaryKey(),

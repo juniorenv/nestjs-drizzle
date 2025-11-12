@@ -4,7 +4,7 @@ import { Pool } from "pg";
 import * as schema from "./schema/schema";
 import { faker } from "@faker-js/faker";
 import { hashSync } from "bcrypt";
-import { Language, Theme } from "../user/dto/profile-metadata.types";
+import { Language, Theme } from "../user/dto/profile-metadata.dto";
 
 export const pool = new Pool({
   connectionString: process.env.DATABASE_URL,

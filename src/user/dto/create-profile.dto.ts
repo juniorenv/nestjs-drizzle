@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { ProfileMetadata } from "./profile-metadata.types";
+import { ProfileMetadata } from "./profile-metadata.dto";
 import { IsObject, ValidateNested } from "class-validator";
 
 export class CreateProfileDto {
