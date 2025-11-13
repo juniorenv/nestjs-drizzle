@@ -88,17 +88,15 @@ export class GroupService {
     groupId: string,
     updateGroupDto: UpdateGroupDto,
   ): Promise<GroupEntity> {
-    if (updateGroupDto.name) {
-      const existingGroup = await this.db.query.groups.findFirst({
-        where: eq(groups.name, updateGroupDto.name),
-        columns: { id: true },
-      });
+    const existingGroup = await this.db.query.groups.findFirst({
+      where: eq(groups.name, updateGroupDto.name),
+      columns: { id: true },
+    });
 
-      if (existingGroup && existingGroup.id !== groupId) {
-        throw new ConflictException(
-          `Group ${updateGroupDto.name} already exists`,
-        );
-      }
+    if (existingGroup && existingGroup.id !== groupId) {
+      throw new ConflictException(
+        `Group ${updateGroupDto.name} already exists`,
+      );
     }
 
     const [updatedGroup] = await this.db
