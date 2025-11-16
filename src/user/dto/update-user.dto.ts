@@ -1,6 +1,8 @@
-import { OmitType, PartialType } from "@nestjs/mapped-types";
+import { PartialType, PickType } from "@nestjs/mapped-types";
 import { CreateUserDto } from "./create-user.dto";
+import { AtLeastOneField } from "src/common/decorators/at-least-one-property.decorator";
 
+@AtLeastOneField(["name", "email"])
 export class UpdateUserDto extends PartialType(
-  OmitType(CreateUserDto, ["password"] as const),
+  PickType(CreateUserDto, ["name", "email"] as const),
 ) {}

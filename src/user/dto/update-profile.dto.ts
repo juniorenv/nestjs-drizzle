@@ -6,6 +6,7 @@ import {
 } from "./profile-metadata.dto";
 import { IsObject, IsOptional, ValidateNested } from "class-validator";
 import { Type } from "class-transformer";
+import { AtLeastOneField } from "src/common/decorators/at-least-one-property.decorator";
 
 export class UpdatePreferencesDto extends PartialType(PreferencesDto) {}
 export class UpdateSocialLinksDto extends PartialType(SocialLinksDto) {}
@@ -26,6 +27,7 @@ export class UpdateProfileMetadataDto extends PartialType(
   socialLinks?: UpdateSocialLinksDto;
 }
 
+@AtLeastOneField(["metadata"])
 export class UpdateProfileDto {
   @IsOptional()
   @ValidateNested()

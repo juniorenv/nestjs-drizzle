@@ -1,6 +1,8 @@
-import { PickType } from "@nestjs/mapped-types";
+import { PartialType, PickType } from "@nestjs/mapped-types";
 import { CreateGroupDto } from "./create-group.dto";
+import { AtLeastOneField } from "src/common/decorators/at-least-one-property.decorator";
 
-export class UpdateGroupDto extends PickType(CreateGroupDto, [
-  "name",
-] as const) {}
+@AtLeastOneField(["name"])
+export class UpdateGroupDto extends PartialType(
+  PickType(CreateGroupDto, ["name"] as const),
+) {}
