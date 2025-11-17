@@ -20,17 +20,23 @@ export const DRIZZLE = Symbol("drizzle-connection");
           ssl: NODE_ENV === "production" ? true : false,
         });
 
+        pool.on("error", (err) => {
+          console.error("❌ Unexpected database pool error:", err);
+        });
+
+        pool.on("connect", (client) => {
+          client.on("error", (err) => {
+            console.error("❌ Database client error:", err);
+          });
+        });
+
         try {
           const client = await pool.connect();
           await client.query("SELECT 1");
           console.log("✅ Database connected");
           client.release();
         } catch (error) {
-          console.error(
-            "❌ Database connection failed:",
-            error instanceof Error ? error.message : "Unknown error",
-          );
-          throw error;
+          console.error("❌ Database connection failed:", error);
         }
 
         return drizzle(pool, { schema }) as NodePgDatabase<typeof schema>;
