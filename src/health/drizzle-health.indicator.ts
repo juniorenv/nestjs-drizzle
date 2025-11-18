@@ -14,14 +14,15 @@ export class DrizzleHealthIndicator {
 
   async isHealth(key: string) {
     const indicator = this.healthIndicatorService.check(key);
-
     try {
       await this.db.execute(sql`SELECT 1`);
-
       return indicator.up();
     } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown database error";
       return indicator.down({
-        message: error instanceof Error ? error.message : "Unknown error",
+        message: errorMessage,
+        error: error instanceof Error ? error.name : "DatabaseError",
       });
     }
   }
