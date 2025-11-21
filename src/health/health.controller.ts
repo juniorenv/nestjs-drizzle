@@ -13,7 +13,7 @@ export class HealthController {
   @HealthCheck()
   public check() {
     return this.health.check([
-      async () => this.drizzleHealthIndicator.isHealth("database"),
+      async () => this.drizzleHealthIndicator.isHealthy("database"),
     ]);
   }
 }

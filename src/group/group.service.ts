@@ -144,7 +144,7 @@ export class GroupService {
 
     await this.db.insert(usersToGroups).values({ groupId, userId }).returning();
 
-    return { message: `Member ${userId} has been successfully added ` };
+    return { message: `Member ${userId} has been successfully added` };
   }
 
   public async removeMember(

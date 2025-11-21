@@ -12,7 +12,7 @@ export class DrizzleHealthIndicator {
     private readonly healthIndicatorService: HealthIndicatorService,
   ) {}
 
-  async isHealth(key: string) {
+  async isHealthy(key: string) {
     const indicator = this.healthIndicatorService.check(key);
     try {
       await this.db.execute(sql`SELECT 1`);
