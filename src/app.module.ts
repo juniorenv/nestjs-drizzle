@@ -6,9 +6,19 @@ import { UserModule } from "./user/user.module";
 import { CommentModule } from "./comment/comment.module";
 import { GroupModule } from "./group/group.module";
 import { HealthModule } from "./health/health.module";
+import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
+import { APP_GUARD } from "@nestjs/core";
 
 @Module({
   imports: [
+    ThrottlerModule.forRoot({
+      throttlers: [
+        {
+          ttl: 60000,
+          limit: 100,
+        },
+      ],
+    }),
     ConfigModule.forRoot({ isGlobal: true }),
     DrizzleModule,
     PostModule,
@@ -18,6 +28,11 @@ import { HealthModule } from "./health/health.module";
     HealthModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AppModule {}
