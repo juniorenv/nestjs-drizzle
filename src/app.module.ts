@@ -8,6 +8,7 @@ import { GroupModule } from "./group/group.module";
 import { HealthModule } from "./health/health.module";
 import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
 import { APP_GUARD } from "@nestjs/core";
+import { AuthModule } from "./auth/auth.module";
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { APP_GUARD } from "@nestjs/core";
     CommentModule,
     GroupModule,
     HealthModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [
