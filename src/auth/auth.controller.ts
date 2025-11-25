@@ -1,4 +1,10 @@
-import { Controller } from "@nestjs/common";
+import { Controller, Post } from "@nestjs/common";
 
 @Controller()
-export class AuthController {}
+export class AuthController {
+  @Post()
+  public async signUp() {}
+
+  @Post()
+  public async signIn() {}
+}
