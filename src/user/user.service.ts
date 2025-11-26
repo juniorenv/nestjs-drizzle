@@ -25,7 +25,7 @@ export class UserService {
 
   private readonly SALT_ROUNDS = 10;
 
-  private async findByEmail(userEmail: string): Promise<UserEntity | null> {
+  public async findByEmail(userEmail: string): Promise<UserEntity | null> {
     const foundUser = await this.db.query.users.findFirst({
       where: eq(users.email, userEmail),
     });
