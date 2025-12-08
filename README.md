@@ -13,3 +13,7 @@
 ![PostgreSQL][POSTGRES__BADGE]
 ![Docker][DOCKER__BADGE]
 ![Bcrypt][BCRYPT__BADGE]
+
+## Database Schema
+
+![alt text](docs/relations.png)
