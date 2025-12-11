@@ -5,6 +5,7 @@
 [POSTGRES__BADGE]: https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white
 [DOCKER__BADGE]: https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white
 [BCRYPT__BADGE]: https://img.shields.io/badge/bcrypt-4A4A55?style=for-the-badge&logo=npm
+[SWAGGER__BADGE]: https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white
 
 ![TypeScript][TYPESCRIPT__BADGE]
 ![NestJS][NESTJS__BADGE]
@@ -13,6 +14,11 @@
 ![PostgreSQL][POSTGRES__BADGE]
 ![Docker][DOCKER__BADGE]
 ![Bcrypt][BCRYPT__BADGE]
+![Swagger][SWAGGER__BADGE]
+
+---
+
+📝 **Note:** Full documentation including API endpoints and Swagger integration is currently being written.
 
 ## Database Schema
 
