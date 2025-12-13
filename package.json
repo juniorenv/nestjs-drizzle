@@ -1,7 +1,7 @@
 {
-  "name": "nestjs-drizzle",
+  "name": "nestjs-social-api",
   "version": "0.0.1",
-  "description": "",
+  "description": "A robust NestJS REST API for a social blogging platform with JWT authentication, user management, posts, comments, and groups",
   "author": "",
   "private": true,
   "license": "UNLICENSED",
