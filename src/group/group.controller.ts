@@ -13,8 +13,10 @@ import { CreateGroupDto } from "./dto/create-group.dto";
 import { UpdateGroupDto } from "./dto/update-group.dto";
 import { GroupEntity } from "./dto/group.types";
 import { AddMemberDto } from "./dto/add-member.dto";
+import { ApiTags } from "@nestjs/swagger";
 
 @Controller("groups")
+@ApiTags("groups")
 export class GroupController {
   constructor(private readonly groupService: GroupService) {}
 

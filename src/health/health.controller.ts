@@ -1,8 +1,10 @@
 import { Controller, Get } from "@nestjs/common";
 import { HealthCheck, HealthCheckService } from "@nestjs/terminus";
 import { DrizzleHealthIndicator } from "./drizzle-health.indicator";
+import { ApiTags } from "@nestjs/swagger";
 
 @Controller("health")
+@ApiTags("health")
 export class HealthController {
   constructor(
     private readonly health: HealthCheckService,
